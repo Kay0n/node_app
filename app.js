@@ -3,7 +3,7 @@ var express = require('express')
 var path = require('path')
 var app = express()
 var port = 3000
-var students = require("./routes/students.js")
+var router = require("./routes/primaryRouter.js")
 
 
 
@@ -17,14 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-
-
-
-
-
-
 // Routes
-app.use("/students",students)
+app.use("/",router)
 
 
 // Static folder serve - see (https://expressjs.com/en/starter/static-files.html)

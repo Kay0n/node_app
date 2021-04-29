@@ -1,14 +1,26 @@
 // Init
 var express = require("express");
 var router = express.Router();
-var bridge = require("../database.js");
-var sql = bridge.sql
+var controller = require("../controllers/mainController");
+
+
+
 
 // Home route
 router.get("/", (req, res) => {
   res.send("Landing page. Nothing to see here...");
 });
 
+router.get("/list", controller.list);
+
+router.get("/input", controller.input);
+router.post("/input",controller.input);
+
+router.get("/upload",controller.upload);
+router.post("/upload",controller.upload);
+/*
+var bridge = require("../database.js");
+var sql = bridge.sql;
 // List students and present form
 router.get("/list", function (req, res) {
   var people = [];
@@ -53,7 +65,7 @@ router.post("/form", function (req, res) {
   // insert POST data into "students" table, redirect to root
   var valArray = [req.body.first_name, req.body.last_name, req.body.gender];
   sql.query(
-    "INSERT INTO students (first_name, last_name, gender) VALUES (?,?,?)",
+    "INSERT INTO students VALUES (NULL,?,?,?)",
     valArray,
     (err, data) => {
       if (err) {
@@ -65,6 +77,6 @@ router.post("/form", function (req, res) {
   console.log("data inserted");
   res.redirect("/students/list");
 });
-
+*/
 // export module to app.js
 module.exports = router;
