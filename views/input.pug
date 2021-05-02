@@ -1,0 +1,39 @@
+
+extends template
+block content_var
+
+	h3 Add user:
+	form(action="/input", method="POST")
+
+		// name input
+		label(for="first_name") Enter First Name: 
+			input( type="text", name="", value="John", required)
+		br
+		label(for="last_name") Enter Last Name: 
+			input( type="text", name="last_name", value="Smith", required)
+
+
+		label(for="crashtype") Crash Type:
+			select(id="crashtype", name="crashtype", required)
+				- var count = 1;
+				for i in crashtype_arr
+					option(value=count)=i
+					- count++;
+				
+		
+		// gender input
+		br
+		label(for="gender") Male
+			input(type="radio", name="gender", value="MALE", required)
+		br
+		label(for="gender") Female
+			input(type="radio", name="gender", value="FEMALE", required)
+		br
+		label(for="gender") Other
+			input(type="radio", name="gender", value="OTHER", required)
+
+		// submit form
+		br
+		input(type="submit", value="Submit")
+		
+

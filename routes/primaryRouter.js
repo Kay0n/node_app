@@ -18,44 +18,8 @@ router.post("/input",controller.input);
 
 router.get("/upload",controller.upload);
 router.post("/upload",controller.upload);
+
 /*
-var bridge = require("../database.js");
-var sql = bridge.sql;
-// List students and present form
-router.get("/list", function (req, res) {
-  var people = [];
-  console.log("fetching data");
-  // async sql query to fetch "students" table
-  sql.query("SELECT * FROM students", (err, data) => {
-    // Error handling
-    if (err) {
-      console.log("error: ", err);
-      throw err;
-    }
-    // check if data exists
-    if (data.length > 0) {
-      // loop through array and set variables
-      for (var i = 0; i < data.length; i++) {
-        temp = {
-          first_name: data[i].first_name,
-          last_name: data[i].last_name,
-          gender: data[i].gender,
-        };
-
-        // push to array and send to view
-        people.push(temp);
-      }
-      console.log("data fetched, sending view...");
-      res.render("index", { people: people });
-
-      // if no data, send response
-    } else {
-      res.send("no values found");  
-      console.log("no values found");
-    }
-  });
-});
-
 
 
 // Form data proccessing route

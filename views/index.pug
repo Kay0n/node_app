@@ -5,39 +5,23 @@ block content_var
 	h2 Current Database:
 	table(border=1)
 		h1
-			tr 
-				td First Name 
-				td Last Name 
-				td Gender
-		for i in people
 			tr
-				td= i.first_name
-				td= i.last_name			
-				td= i.gender
+				td Crash ID 
+				td Crash Type
+				td Casualties 
+				td Fatalities 
+				td DUI Bool 
+				td Drugs Bool 
+				td Daytime Bool
+		if (table != undefined)
+			for i in table
+				tr
+					td= i.crash_id
+					td= i.crashtype_id 
+					td= i.casualties
+					td= i.fatalities
+					td= i.dui_bool
+					td= i.drugs_bool
+					td= i.day_bool
+
 					
-	h3 Add user:
-	form(action="/students/form", method="POST")
-
-		// name input
-		label(for="first_name") Enter First Name: 
-			input(id="first_name", type="text", name="first_name", value="John", required)
-		br
-		label(for="last_name") Enter Last Name: 
-			input(id="last_name", type="text", name="last_name", value="Smith", required)
-
-		// gender input
-		br
-		label(for="gender") Male
-			input(type="radio", name="gender", value="MALE", required)
-		br
-		label(for="gender") Female
-			input(type="radio", name="gender", value="FEMALE", required)
-		br
-		label(for="gender") Other
-			input(type="radio", name="gender", value="OTHER", required)
-
-		// submit form
-		br
-		input(type="submit", value="Submit")
-	
-

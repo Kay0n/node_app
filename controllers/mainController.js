@@ -3,50 +3,88 @@ const database = require("../database.js");
 var express = require('express')
 var mysql = require("../database.js");
 
-// reveals 
-async function queryg(sql_string){
+// proccessing of sql request
+async function query(sql_string){
     var data = await mysql.query(sql_string)
     return data[0]
 }
 
+
+// grabs names from query and returns array of names in id index positon
+function nameArray(db_obj, zeroIndex = true){
+
+    var array = []
+    // adds null as 0 index to align with database values
+    if(zeroIndex){array.push(null)}
+    
+    for(i in db_obj){ //TODO: check for..in statment for correct output order
+        array.push(Object.values(db_obj[i])[1])
+    }
+    //throw error if empty
+    if( array.length < 1){
+        throw "TypeError: Database return value is less than 1"
+    }
+    return array
+}
+
+
+// main route controllers
 module.exports = {
     async list(req,res){
-        var people = [];
         console.log("fetching data");
-
-
-        // Error handling
+        // SQL querys
         try {
-            var data = await queryg("SELECT * FROM crashes")
+            var data = await query("SELECT * FROM crashes")
+            var position = await query("SELECT * FROM position")
+            var location = await query("SELECT * FROM location")
+            var crashtype = await query("SELECT * FROM crashtype")
             console.log("query returned")
         } catch (e){
-            console.error(e)
+            console.log(e)
         }
 
-              
-        console.log("result:" + data.length)
-        res.redirect("/")
-        /*
+        // get names into array from tables
+        pos_arr = nameArray(position)
+        loc_arr = nameArray(location)   
+        crashtype_arr = nameArray(crashtype)
+        
+        
+        var table = [];
         // check if data exists
         if (data.length > 0) {
             // loop through array and set variables
-            for (var i = 0; i < data.length; i++) {
+            
+            for (var i=0;i<data.length;i++) {
                 // push to array and send to view
-                people.push({
-                    first_name: data[i].first_name,
-                    last_name: data[i].last_name,
-                    gender: data[i].gender,
+                table.push({
+                    crash_id: data[i].crash_id,
+                    //position_id: pos_arr[data[i].position_id],
+                    //location_id: loc_arr[data[i].location_id],
+                    crashtype_id: crashtype_arr[data[i].crashtype_id],
+                    casualties: data[i].casualties,
+                    fatalities: data[i].fatalities,
+                    dui_bool: !!data[i].dui_bool,
+                    drugs_bool: !!data[i].drugs_bool,
+                    day_bool: !!data[i].day_bool
                 });
             }
             console.log("data fetched, sending view...");
-            res.render("index", { people: people });
+            // render view index.pug
+            res.render("index", { table: table });
+
         } else { // if no data, send response
-                res.send("no values found");  
-                console.log("no values found");
+            res.send("no values found");  
+            console.log("no values found");
         }
-        */
+        
+        
     },
-    input(req,res){
+    async input(req,res){
+        var crashtype = await query("SELECT * FROM crashtype")
+        crashtype_arr = nameArray(crashtype, false)
+        res.render("input", {
+            crashtype_arr:crashtype_arr,
+        });
 
 
     },
