@@ -79,14 +79,33 @@ module.exports = {
         
         
     },
-    async input(req,res){
+    async getInput(req,res){
         var crashtype = await query("SELECT * FROM crashtype")
+        var position = await query("SELECT * FROM position")
+        var location = await query("SELECT * FROM location")
         crashtype_arr = nameArray(crashtype, false)
+        position_arr = nameArray(position, false)
+        location_arr = nameArray(location, false)
         res.render("input", {
             crashtype_arr:crashtype_arr,
+            position_arr:position_arr,
+            location_arr:location_arr
         });
-
-
+    },
+    async postInput(req,res){
+        var valArray = [
+            req.body.position,
+            req.body.location, 
+            req.body.crashtype, 
+            req.body.date, 
+            req.body.casualties, 
+            req.body.fatalities,
+            req.body.dui_bool,
+            req.body.drugs_bool,
+            req.body.day_bool
+            ];
+        await mysql.query("INSERT INTO crashes VALUES (NULL,?,?,?,?,?,?,?,?,?)",valArray);
+        res.redirect("/list");
     },
     upload(req,res){
 

@@ -13,11 +13,11 @@ router.get("/", (req, res) => {
 
 router.get("/list", controller.list);
 
-router.get("/input", controller.input);
-router.post("/input",controller.input);
+router.get("/input", controller.getInput);
+router.post("/input",controller.postInput);
 
-router.get("/upload",controller.upload);
-router.post("/upload",controller.upload);
+router.get("/upload",controller.getUpload);
+router.post("/upload",controller.postUpload);
 
 /*
 
