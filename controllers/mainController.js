@@ -63,6 +63,7 @@ module.exports = {
                     crashtype_id: crashtype_arr[data[i].crashtype_id],
                     casualties: data[i].casualties,
                     fatalities: data[i].fatalities,
+                    year: data[i].year,
                     dui_bool: !!data[i].dui_bool,
                     drugs_bool: !!data[i].drugs_bool,
                     day_bool: !!data[i].day_bool
@@ -93,21 +94,24 @@ module.exports = {
         });
     },
     async postInput(req,res){
-        var valArray = [
+        const valArray = [
             req.body.position,
             req.body.location, 
             req.body.crashtype, 
-            req.body.date, 
+            req.body.year, 
             req.body.casualties, 
             req.body.fatalities,
             req.body.dui_bool,
             req.body.drugs_bool,
             req.body.day_bool
             ];
-        await mysql.query("INSERT INTO crashes VALUES (NULL,?,?,?,?,?,?,?,?,?)",valArray);
+        await mysql.query("INSERT INTO crashes VALUES (NULL,?,?,?,?,?,?,?,?,?,?)",valArray);
         res.redirect("/list");
     },
-    upload(req,res){
+    getUpload(req,res){
+
+    },
+    postUpload(req,res){
 
     }
 };

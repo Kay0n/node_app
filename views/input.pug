@@ -5,33 +5,56 @@ block content_var
 	h3 Add user:
 	form(action="/input", method="POST")
 
-		// name input
-		label(for="first_name") Enter First Name: 
-			input( type="text", name="", value="John", required)
+		// year input
+		- const currentYear = new Date().getFullYear()
+		label(for="year") Year:
+			input(type="number", name="", value="#{currentYear}", required)
+
 		br
-		label(for="last_name") Enter Last Name: 
-			input( type="text", name="last_name", value="Smith", required)
+		label(for="casualties") Fatalities: 
+			input(type="number", name="casualties", value="1", required)
+
+		br
+		label(for="fatalities") Fatalities: 
+			input(type="number", name="fatalities", value="1", required)
+
+		br
+		label(for="dui_bool") DUI involved:
+			input(type="checkbox", name="dui_bool")
+
+		br
+		label(for="drugs_bool") Alchohol involved:
+			input(type="checkbox", name="drugs_bool")
+
+		br
+		label(for="day_bool") In daylight:
+			input(type="checkbox", name="day_bool")
 
 
+		br
+		label(for="location") Location:
+			select(id="location", name="location", required)
+				- var count = 1;
+				for i in location_arr
+					option(value=count)=i
+					- count++;
+					
+		br
+		label(for="position") Position:
+			select(id="position", name="position", required)
+				- var count = 1;
+				for i in position_arr
+					option(value=count)=i
+					- count++;
+
+		br
 		label(for="crashtype") Crash Type:
 			select(id="crashtype", name="crashtype", required)
 				- var count = 1;
 				for i in crashtype_arr
 					option(value=count)=i
 					- count++;
-				
 		
-		// gender input
-		br
-		label(for="gender") Male
-			input(type="radio", name="gender", value="MALE", required)
-		br
-		label(for="gender") Female
-			input(type="radio", name="gender", value="FEMALE", required)
-		br
-		label(for="gender") Other
-			input(type="radio", name="gender", value="OTHER", required)
-
 		// submit form
 		br
 		input(type="submit", value="Submit")
