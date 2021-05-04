@@ -8,7 +8,7 @@ block content_var
 		// year input
 		- const currentYear = new Date().getFullYear()
 		label(for="year") Year:
-			input(type="number", name="", value="#{currentYear}", required)
+			input(type="number", name="year", value="#{currentYear}", required)
 
 		br
 		label(for="casualties") Fatalities: 
@@ -24,11 +24,12 @@ block content_var
 
 		br
 		label(for="drugs_bool") Alchohol involved:
-			input(type="checkbox", name="drugs_bool")
+			input(type="checkbox", id="drugs_bool", name="drugs_bool")
 
 		br
 		label(for="day_bool") In daylight:
-			input(type="checkbox", name="day_bool")
+			input(type="checkbox",id="day_bool",
+			 name="day_bool")
 
 
 		br
@@ -38,7 +39,7 @@ block content_var
 				for i in location_arr
 					option(value=count)=i
 					- count++;
-					
+
 		br
 		label(for="position") Position:
 			select(id="position", name="position", required)

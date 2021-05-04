@@ -2,13 +2,21 @@
 const database = require("../database.js");
 var express = require('express')
 var mysql = require("../database.js");
+const { crashSchema } = require("../validation/validator.js")
 
 // proccessing of sql request
 async function query(sql_string){
-    var data = await mysql.query(sql_string)
+    const data = await mysql.query(sql_string)
     return data[0]
 }
-
+// converts checkbox value to bool
+function checkConvert(val){
+    if(val == "on"){
+        return true
+    } else {
+        return false
+    }
+}
 
 // grabs names from query and returns array of names in id index positon
 function nameArray(db_obj, zeroIndex = true){
@@ -22,7 +30,7 @@ function nameArray(db_obj, zeroIndex = true){
     }
     //throw error if empty
     if( array.length < 1){
-        throw "TypeError: Database return value is less than 1"
+        throw  new TypeError("TypeError: Database return value is less than 1");
     }
     return array
 }
@@ -34,10 +42,10 @@ module.exports = {
         console.log("fetching data");
         // SQL querys
         try {
-            var data = await query("SELECT * FROM crashes")
-            var position = await query("SELECT * FROM position")
-            var location = await query("SELECT * FROM location")
-            var crashtype = await query("SELECT * FROM crashtype")
+            var data = await query("SELECT * FROM crashes ORDER BY crash_id")
+            var position = await query("SELECT * FROM position ORDER BY position_id")
+            var location = await query("SELECT * FROM location ORDER BY location_id")
+            var crashtype = await query("SELECT * FROM crashtype ORDER BY crashtype_id")
             console.log("query returned")
         } catch (e){
             console.log(e)
@@ -81,9 +89,9 @@ module.exports = {
         
     },
     async getInput(req,res){
-        var crashtype = await query("SELECT * FROM crashtype")
-        var position = await query("SELECT * FROM position")
-        var location = await query("SELECT * FROM location")
+        var crashtype = await query("SELECT * FROM crashtype ORDER BY crashtype_id")
+        var position = await query("SELECT * FROM position ORDER BY position_id")
+        var location = await query("SELECT * FROM location ORDER BY location_id")
         crashtype_arr = nameArray(crashtype, false)
         position_arr = nameArray(position, false)
         location_arr = nameArray(location, false)
@@ -94,20 +102,34 @@ module.exports = {
         });
     },
     async postInput(req,res){
+
+        try{
+            const validationResult = await crashSchema.validateAsync(req.body)
+            console.log(validationResult.error)
+        } catch (error){
+            console.log(validationResult)
+            console.log(error)
+            
+        }
+        
+
+
         const valArray = [
             req.body.position,
             req.body.location, 
-            req.body.crashtype, 
+            req.body.crashtype,
             req.body.year, 
             req.body.casualties, 
             req.body.fatalities,
-            req.body.dui_bool,
-            req.body.drugs_bool,
-            req.body.day_bool
+            checkConvert(req.body.dui_bool),
+            checkConvert(req.body.drugs_bool),
+            checkConvert(req.body.day_bool)
             ];
-        await mysql.query("INSERT INTO crashes VALUES (NULL,?,?,?,?,?,?,?,?,?,?)",valArray);
+            console.log(valArray);
+        await mysql.query("INSERT INTO crashes VALUES (NULL,"+ valArray.join() +")");
         res.redirect("/list");
     },
+
     getUpload(req,res){
 
     },

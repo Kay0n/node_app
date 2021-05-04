@@ -6,13 +6,15 @@ var controller = require("../controllers/mainController");
 
 
 
+
+
+
 // Home route
 router.get("/", (req, res) => {
   res.send("Landing page. Nothing to see here...");
 });
 
 router.get("/list", controller.list);
-
 router.get("/input", controller.getInput);
 router.post("/input",controller.postInput);
 
