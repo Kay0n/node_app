@@ -2,21 +2,26 @@
 extends template
 block content_var
 
-	h3 Add user:
+	h3 Add Crash Record:
 	form(action="/input", method="POST")
 
 		// year input
 		- const currentYear = new Date().getFullYear()
 		label(for="year") Year:
-			input(type="number", name="year", value="#{currentYear}", required)
-
+			input(type="number", name="year", value=currentYear, required)
+		if (invalid == "year")
+			p(style="color: red") Invalid year
 		br
-		label(for="casualties") Fatalities: 
+		label(for="casualties") Casualties: 
 			input(type="number", name="casualties", value="1", required)
+		if (invalid == "casualties")
+			p(style="color: red") Please input a valid integer
 
 		br
 		label(for="fatalities") Fatalities: 
 			input(type="number", name="fatalities", value="1", required)
+		if (invalid == "fatalities")
+			p(style="color: red") Please input a valid integer
 
 		br
 		label(for="dui_bool") DUI involved:

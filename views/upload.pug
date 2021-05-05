@@ -1,0 +1,10 @@
+extends template
+block content_var
+
+	form(action="/upload", method="POST", enctype="multipart/form-data")
+		label(for="csv") Upload File
+			br
+			input(type="file", name="csv")
+
+		br
+		input(type="submit", value="Submit")

@@ -1,11 +1,10 @@
 // Init
-var express = require("express");
-var router = express.Router();
-var controller = require("../controllers/mainController");
-
-
-
-
+const express = require("express");
+const router = express.Router();
+const controller = require("../controllers/mainController");
+const multer = require("multer")
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage });
 
 
 
@@ -19,30 +18,8 @@ router.get("/input", controller.getInput);
 router.post("/input",controller.postInput);
 
 router.get("/upload",controller.getUpload);
-router.post("/upload",controller.postUpload);
+router.post("/upload",upload.single('csv'),controller.postUpload);
 
-/*
+router.post("/delete",controller.deleteRow);
 
-
-// Form data proccessing route
-router.post("/form", function (req, res) {
-  console.log("proccessing form data");
-
-  // insert POST data into "students" table, redirect to root
-  var valArray = [req.body.first_name, req.body.last_name, req.body.gender];
-  sql.query(
-    "INSERT INTO students VALUES (NULL,?,?,?)",
-    valArray,
-    (err, data) => {
-      if (err) {
-        console.log("error: ", err);
-        throw err;
-      }
-    }
-  );
-  console.log("data inserted");
-  res.redirect("/students/list");
-});
-*/
-// export module to app.js
 module.exports = router;
