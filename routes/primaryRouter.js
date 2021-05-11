@@ -1,4 +1,4 @@
-// Init
+// INIT: libraries
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/mainController");
@@ -10,10 +10,13 @@ var upload = multer({ storage: storage });
 
 // Home route
 router.get("/", (req, res) => {
-  res.send("Landing page. Nothing to see here...");
+  res.redirect("/list");
 });
 
+
+// routes with middleware callbacks
 router.get("/list", controller.list);
+
 router.get("/input", controller.getInput);
 router.post("/input",controller.postInput);
 
@@ -22,4 +25,6 @@ router.post("/upload",upload.single('csv'),controller.postUpload);
 
 router.post("/delete",controller.deleteRow);
 
+
+//export module
 module.exports = router;

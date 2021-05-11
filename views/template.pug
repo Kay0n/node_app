@@ -1,15 +1,26 @@
-<!DOCTYPE html>
 
-<html>
-	<head>
-		title Test Server
-		link(rel="stylesheet", href="../styles/primary.css")
-	</head>
-	<body> 
-		block content_var
-		br
+head
+	title 1est Server1
+	script(src="jquery.min.js")
+	link(rel="stylesheet", href="/style.css", type='text/css')
+body
+	- var menu = { 'Home': '/list', 'Input': '/input', 'Upload': '/upload'};
+	block page
+		- var selected = "404"
+	
+	// top navigation bar
+	nav(class="topnav")
+		each val, key in menu	
+			- var lowerKey = key.toLowerCase()
+			if selected == lowerKey
+				a(href=val, title=key, class="selected")= key
+			else
+				a(href=val, title=key)= key
+	br
+	block content_var
+
+	br
+	
+	footer 
 		hr
-		footer 
-			p &copy; JM 2021		
-	</body>
-</html>
+		p &copy; JM 2021		

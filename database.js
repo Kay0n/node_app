@@ -1,9 +1,9 @@
 
-//init
+// INIT
 const mysql = require('mysql2/promise');
 
 
-//local mysql db connection creds
+//local mysql db connection credentials
 const connection = mysql.createPool({
 	host     : 'localhost',
 	user     : 'root',
@@ -12,15 +12,5 @@ const connection = mysql.createPool({
 });
 
 
-
-// initial connect
-/*
-connection.connect(function(err,connection){
-
-  // error handling and feedback
-  if (err) throw err;
-  console.log("Successfully connected to the database.");
-});
-*/
-
+// export module
 module.exports = connection;

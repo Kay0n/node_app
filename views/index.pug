@@ -1,5 +1,7 @@
 
 extends template
+block page
+	- var selected = "home"
 block content_var
 	
 	h2 Current Database:
@@ -7,11 +9,11 @@ block content_var
 		h1
 			tr
 				td Crash ID 
+				td Location 
+				td Position 
+				td Crash Type
 				td Casualties 
 				td Fataities 
-				td Position 
-				td Location 
-				td Crash Type
 				td Year				
 				td DUI Bool 
 				td Drugs Bool 
@@ -23,11 +25,11 @@ block content_var
 
 				tr
 					td= i.crash_id
+					td= i.location
+					td= i.position
+					td= i.crashtype
 					td= i.casualties
 					td= i.fatalities
-					td= i.position
-					td= i.location
-					td= i.crashtype
 					td= i.year
 					td= i.dui_bool
 					td= i.drugs_bool

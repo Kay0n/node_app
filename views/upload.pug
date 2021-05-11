@@ -1,10 +1,22 @@
 extends template
+block page
+	- var selected = "upload"
 block content_var
 
+	
+			
+
+	// upload form
 	form(action="/upload", method="POST", enctype="multipart/form-data")
-		label(for="csv") Upload File
+		label(for="csv") Upload CSV File
 			br
 			input(type="file", name="csv")
 
 		br
 		input(type="submit", value="Submit")
+
+
+	// client side error message
+	if (error == "true")
+		h5(style="color:red") Invalid file. Please check the data and filetype and try again. 
+		
