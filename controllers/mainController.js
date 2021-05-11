@@ -25,13 +25,16 @@ function valueToArray(db_obj, zeroIndex = true){
     // adds null as 0 index to align with database values
     if(zeroIndex){array.push(null)}
     
-    for(let i in db_obj){ //TODO: check for..in statment for correct output order
+    // loops through object and add nested value to array
+    for(let i in db_obj){ 
         array.push(Object.values(db_obj[i])[1]);
     }
+
     //throw error if empty
     if( array.length < 1){
         throw  new TypeError("TypeError: Database return value is less than 1");
     }
+    
     return array
 }
 
