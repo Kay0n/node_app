@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/mainController");
+const graphController = require("../controllers/graphController")
 const multer = require("multer")
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
@@ -24,6 +25,8 @@ router.get("/upload",controller.getUpload);
 router.post("/upload",upload.single('csv'),controller.postUpload);
 
 router.post("/delete",controller.deleteRow);
+
+router.get("/graph", graphController.display)
 
 
 //export module

@@ -19,12 +19,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+
 // Routes
 app.use("/",router)
 
 
 // Static folder serve - see (https://expressjs.com/en/starter/static-files.html)
 app.use(express.static('static'))
+
+
 
 // get paramaters example
 app.get('/users/:userId/books/:bookId', function (req, res) {

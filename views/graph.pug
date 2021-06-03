@@ -1,0 +1,17 @@
+extends template
+block page
+	- var selected = "graph"
+block content_var
+	canvas(id="staticChart", width="400", height="400")
+	script(src="../controllers/graphController.js")
+	script(src="chart.js")
+
+	script
+		include ../static/test.js
+	
+
+
+
+
+
+
