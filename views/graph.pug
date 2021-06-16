@@ -2,14 +2,87 @@ extends template
 block page
 	- var selected = "graph"
 block content_var
-	canvas(id="staticChart", width="400", height="400")
-	script(src="../controllers/graphController.js")
-	script(src="chart.js")
 
-	script
-		include ../static/test.js
+
+	div(style="height: 500px;width: 700px")
+		canvas(id="mainChart")
+	script.
+		var xLabel = "Year";
+		var yLabel = "Statistic";
+		var graphType = "bar";
+		var graphTitle = "Title test";
+		var mode = "main";
+		
+		
+		var casArray = !{casArray}
+		
+		var fatArray = !{fatArray}
+
+		var crashArray = !{crashArray}
+		
+		
+		
+
+
+		
+
+
+	script(type="text/javascript", src="chart.js")
+	script(type="text/javascript", src="graph.js")
 	
+	form(action="/graph", method="POST")
 
+	
+		h1 Data Selection
+		label(for="casualties") Casualties
+			input(type="checkbox", name="selectCasualties", id='casualties')
+		br
+		label(for="fatalities") Fatalities
+			input(type="checkbox", name="selectFatalities", id='fatalities')
+		br
+		label(for="crashes") Total Crashes
+			input(type="checkbox", name="selectCrashes", id='crashes')
+		br
+
+
+
+		//-  use unshift() to append <none> value to start of array 
+
+			h1 Filters 
+			label(for="Filters Enabled") Position Filter Enabled
+				input(type="checkbox", name="posfilter", id='posfilter')
+			br
+			label(for="position") Position:
+				select(id="position", name="position", required)
+					- var count = 1;
+					for i in position_arr
+						option(value=count)=i
+						- count++;
+			label(for="Filters Enabled") crashtype Filter Enabled
+				input(type="checkbox", name="ctfilter", id='ctfilter')
+			br
+			label(for="crashtype") Crash Type:
+				select(id="crashtype", name="crashtype", required)
+					- var count = 1;
+					for i in crashtype_arr
+						option(value=count)=i
+						- count++;
+
+
+
+		
+	
+		br
+		input(type="submit", value="Submit", id="submit")
+		
+
+
+
+
+
+
+
+	
 
 
 

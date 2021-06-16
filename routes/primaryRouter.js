@@ -27,6 +27,7 @@ router.post("/upload",upload.single('csv'),controller.postUpload);
 router.post("/delete",controller.deleteRow);
 
 router.get("/graph", graphController.display)
+router.post("/graph", graphController.display)
 
 
 //export module
