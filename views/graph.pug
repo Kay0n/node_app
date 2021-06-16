@@ -3,21 +3,30 @@ block page
 	- var selected = "graph"
 block content_var
 
+	script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js", type="text/javascript")
+
+
 
 	div(style="height: 500px;width: 700px")
 		canvas(id="mainChart")
 	script.
 		var xLabel = "Year";
 		var yLabel = "Statistic";
+		var mode = "main"
 		
-		var graphTitle = "Title test";
-		var mode = "main";
-		
-		
+		var graphTitle = "Crash Data Graph";
+		if ("!{mode}" != "" && "!{mode}" != undefined){
+			var mode = "!{mode}"
+			console.log("!{mode}")
+		}else{var mode = "main"}
+
 		var casArray = !{casArray}
 		var fatArray = !{fatArray}
 		var crashArray = !{crashArray}
 		var graphType = "!{graphType}"
+		var lgaArray = !{lgaArray}
+		var location_arr2 = !{location_arr2}
+
 		
 		
 
@@ -26,7 +35,7 @@ block content_var
 	
 
 
-	form(action="/graph", method="POST")
+	form(action="/graph", method="POST",id="mainForm")
 
 		h1 Data Selection
 		label(for="casualties") Casualties
@@ -70,13 +79,52 @@ block content_var
 		br
 		label(for="pie") Pie Chart
 			input(type="radio", id="pie", name="graphType", value="pie")
-
+		
 
 
 		
 	
 		br
+		input(type="hidden",value="main",name="mode")
 		input(type="submit", value="Submit", id="submit")
+
+	
+	form(action="/graph", method="POST",id="secondaryForm")
+		label(for="LGA ")
+			input(list="list",name="LGA")
+			datalist(id="list",name="LGA")
+				- var count = 1;
+				for i in location_arr
+					option(value=i)
+					- count++;
+		
+		input(type="hidden",value="secondary",name="mode")
+		br
+		input(type="submit", value="Submit", id="submit",name="submit")
+		input(type="submit",id="reset",value="Reset",name="reset")
+
+	
+
+		
+
+
+
+	input(type="button",id="bt1",Value="Switch Mode")
+	script.
+		$('#bt1').click(function () {
+			mainChart.update()
+			if (mode == "main") {
+				mode = "secondary"
+				$("#mainForm").hide()
+				$("#secondaryForm").show()
+				xLabel = "LGA Name";
+			} else {
+				mode = "main"
+				$("#secondaryForm").hide()
+				$("#mainForm").show()
+			}
+		});
+
 		
 
 

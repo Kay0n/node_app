@@ -26,7 +26,7 @@ function valueToArray(db_obj){
 	return array
 }
 
-
+let lgaArray = []
 module.exports = {
 	async display(req,res){
 		const sendToView = {};
@@ -34,8 +34,12 @@ module.exports = {
 		//collects data for dropdowns
 		var crashtype = await query("SELECT * FROM crashtype ORDER BY crashtype_id")
 		var position = await query("SELECT * FROM position ORDER BY position_id")
+		var location = await query("SELECT * FROM location ORDER BY location_id")
 		sendToView.crashtype_arr = valueToArray(crashtype)
 		sendToView.position_arr = valueToArray(position)
+		sendToView.location_arr = valueToArray(location)
+		sendToView.location_arr2 = JSON.stringify(valueToArray(location))
+		
 		
 		let sqlPos = "";
 		let sqlCT = "";
@@ -78,10 +82,22 @@ module.exports = {
 		} else {
 			sendToView.graphType = req.body.graphType
 		}
+
+		if (req.body.LGA != 0 && req.body.LGA != undefined){
+			let lgaCas = Object.values((await query("SELECT SUM(casualties) FROM crashes INNER JOIN location ON crashes.location_id = location.location_id WHERE location_name = '" + req.body.LGA + "'"))[0])[0]
+			let lgaFat = Object.values((await query("SELECT SUM(fatalities) FROM crashes INNER JOIN location ON crashes.location_id = location.location_id WHERE location_name = '" + req.body.LGA + "'"))[0])[0]
+			let lgaCra = Object.values((await query("SELECT COUNT(crash_id) FROM crashes INNER JOIN location ON crashes.location_id = location.location_id WHERE location_name = '" + req.body.LGA + "'"))[0])[0]
+			let lgaIndex =  Object.values((await query("SELECT location_id FROM location WHERE location_name = '" + req.body.LGA + "'"))[0])[0]
+			lgaArray.push([lgaIndex, lgaCas,lgaFat,lgaCra])
+			sendToView.lgaArray = JSON.stringify(lgaArray)
+		} else {sendToView.lgaArray = "[]"}
 		
-		
+		if (req.body.reset == "Reset"){
+			lgaArray = []
+			sendToView.lgaArray = "[]"
+		}
+		if (req.body.mode == "secondary"){sendToView.mode = "secondary"}
 		// render page with dropdown lists
-		console.log(sendToView)
 		res.render("graph", sendToView);
 	}
 }
