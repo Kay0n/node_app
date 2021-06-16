@@ -9,30 +9,25 @@ block content_var
 	script.
 		var xLabel = "Year";
 		var yLabel = "Statistic";
-		var graphType = "bar";
+		
 		var graphTitle = "Title test";
 		var mode = "main";
 		
 		
 		var casArray = !{casArray}
-		
 		var fatArray = !{fatArray}
-
 		var crashArray = !{crashArray}
+		var graphType = "!{graphType}"
 		
 		
-		
-
-
-		
-
 
 	script(type="text/javascript", src="chart.js")
 	script(type="text/javascript", src="graph.js")
 	
+
+
 	form(action="/graph", method="POST")
 
-	
 		h1 Data Selection
 		label(for="casualties") Casualties
 			input(type="checkbox", name="selectCasualties", id='casualties')
@@ -46,27 +41,35 @@ block content_var
 
 
 
-		//-  use unshift() to append <none> value to start of array 
+		h1 Filters 
+		br
+		label(for="position") Position:
+			select(id="position", name="position", required)
+				- var count = 0;
+				for i in position_arr
+					option(value=count)=i
+					- count++;
+		br
+		label(for="crashtype") Crash Type:
+			select(id="crashtype", name="crashtype", required)
+				- var count = 0;
+				for i in crashtype_arr
+					option(value=count)=i
+					- count++;
 
-			h1 Filters 
-			label(for="Filters Enabled") Position Filter Enabled
-				input(type="checkbox", name="posfilter", id='posfilter')
-			br
-			label(for="position") Position:
-				select(id="position", name="position", required)
-					- var count = 1;
-					for i in position_arr
-						option(value=count)=i
-						- count++;
-			label(for="Filters Enabled") crashtype Filter Enabled
-				input(type="checkbox", name="ctfilter", id='ctfilter')
-			br
-			label(for="crashtype") Crash Type:
-				select(id="crashtype", name="crashtype", required)
-					- var count = 1;
-					for i in crashtype_arr
-						option(value=count)=i
-						- count++;
+		br
+		h3 Graph Type
+		label(for="bar") Bar Graph 
+			input(type="radio", id="bar", name="graphType", value="bar", checked)
+		br
+		label(for="line") Line Graph 
+			input(type="radio", id="line", name="graphType", value="line")
+		br
+		label(for="scatter") Scatter Plot 
+			input(type="radio", id="scatter", name="graphType", value="scatter")
+		br
+		label(for="pie") Pie Chart
+			input(type="radio", id="pie", name="graphType", value="pie")
 
 
 

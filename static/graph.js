@@ -47,7 +47,7 @@ window.onload = function (res) {
 
         
         mainChart.data.datasets = []
-        mainChart.data.labels = ["2017","2018","2019"]  
+        mainChart.data.labels = ["2016","2017","2018"]  
         
         if (casArray){
             mainChart.data.datasets.push({
@@ -70,12 +70,6 @@ window.onload = function (res) {
                 data: crashArray
             })
         }
-
-
-
         mainChart.update()
     }
-
-
-
 }
